@@ -32,6 +32,41 @@ public class Libro implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     
+    // ========== Enumeración interna ==========
+    
+    /**
+     * Enumeración de especialidades por carrera.
+     */
+    public enum Especialidad {
+        INGENIERIA("ING"),
+        EDUCACION("EDU"),
+        MEDICINA("MED"),
+        VETERINARIA("VET"),
+        CIENCIAS_COMERCIALES("COM"),
+        TURISMO("TUR"),
+        DERECHO("DER"),
+        GENERAL("GEN");
+        
+        private final String codigo;
+        
+        Especialidad(String codigo) {
+            this.codigo = codigo;
+        }
+        
+        public String getCodigo() {
+            return codigo;
+        }
+    }
+    
+    /**
+     * Enumeración de niveles de recomendación académica.
+     */
+    public enum NivelRecomendado {
+        BASICO,
+        INTERMEDIO,
+        AVANZADO
+    }
+    
     // ========== Atributos ==========
     
     /**
@@ -98,6 +133,21 @@ public class Libro implements Serializable {
      * Indica si el libro está activo en el catálogo.
      */
     private Boolean activo;
+    
+    /**
+     * Especialidad o facultad a la que pertenece el libro.
+     */
+    private Especialidad especialidad;
+    
+    /**
+     * Código de categoría según especialidad (ej: ING-001, MED-002).
+     */
+    private String codigoCategoria;
+    
+    /**
+     * Nivel de recomendación según el año académico.
+     */
+    private NivelRecomendado nivelRecomendado;
     
     // ========== Constructores ==========
     
@@ -297,6 +347,30 @@ public class Libro implements Serializable {
     
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+    
+    public Especialidad getEspecialidad() {
+        return especialidad;
+    }
+    
+    public void setEspecialidad(Especialidad especialidad) {
+        this.especialidad = especialidad;
+    }
+    
+    public String getCodigoCategoria() {
+        return codigoCategoria;
+    }
+    
+    public void setCodigoCategoria(String codigoCategoria) {
+        this.codigoCategoria = codigoCategoria;
+    }
+    
+    public NivelRecomendado getNivelRecomendado() {
+        return nivelRecomendado;
+    }
+    
+    public void setNivelRecomendado(NivelRecomendado nivelRecomendado) {
+        this.nivelRecomendado = nivelRecomendado;
     }
     
     // ========== Métodos Object ==========

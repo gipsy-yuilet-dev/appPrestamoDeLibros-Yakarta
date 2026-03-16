@@ -24,7 +24,7 @@
         <jakarta.servlet.version>5.0.0</jakarta.servlet.version>
         <jakarta.jsp.version>3.0.0</jakarta.jsp.version>
         <jstl.version>2.0.0</jstl.version>
-        <mysql.connector.version>8.0.33</mysql.connector.version>
+        <mysql.connector.version>8.3.0</mysql.connector.version>
         <h2.version>2.2.224</h2.version>
     </properties>
 

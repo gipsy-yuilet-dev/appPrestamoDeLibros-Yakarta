@@ -268,8 +268,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="${contextPath}/admin/usuarios" class="btn-primary">Ir a Gestión</a>
-                        <a href="${contextPath}/admin/prestamos" class="btn-secondary">Ver Deudas</a>
+                        <a href="${contextPath}/admin-usuarios" class="btn-primary">Ir a Gestión</a>
                     </div>
                 </div>
 
@@ -297,7 +296,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="${contextPath}/admin/prestamos" class="btn-primary">Registrar Devolución</a>
+                        <a href="${contextPath}/admin/prestamos" class="btn-primary">Ir a Gestión</a>
+                    </div>
                         <a href="${contextPath}/mi-historial" class="btn-secondary">Ver Historial</a>
                     </div>
                 </div>

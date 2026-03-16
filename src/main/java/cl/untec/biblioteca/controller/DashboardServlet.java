@@ -1,16 +1,16 @@
 package cl.untec.biblioteca.controller;
 
 import java.io.IOException;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import cl.untec.biblioteca.dao.DAOFactory;
 import cl.untec.biblioteca.dao.PrestamoDAO;
 import cl.untec.biblioteca.dao.UsuarioDAO;
 import cl.untec.biblioteca.model.Usuario;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * DashboardServlet - Dashboard adaptativo por rol de usuario
@@ -26,7 +26,7 @@ import cl.untec.biblioteca.model.Usuario;
  * @version 1.0.0
  * @since Marzo 2026
  */
-@WebServlet(urlPatterns = {"/dashboard", "/inicio"}, loadOnStartup = 1)
+@WebServlet(urlPatterns = {"/dashboard"}, loadOnStartup = 1)
 public class DashboardServlet extends HttpServlet {
     
     private static final long serialVersionUID = 1L;

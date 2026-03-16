@@ -99,6 +99,7 @@ public class LoginServlet extends HttpServlet {
                 // Credenciales correctas: crear sesión
                 HttpSession session = request.getSession(true);
                 session.setAttribute("usuario", usuario);
+                session.setAttribute("usuarioId", usuario.getId());
                 session.setAttribute("nombreUsuario", usuario.getNombre());
                 session.setAttribute("tipoUsuario", usuario.getTipoUsuario().name());
                 
@@ -112,8 +113,8 @@ public class LoginServlet extends HttpServlet {
                 // Registrar login exitoso
                 log(String.format("Login exitoso: %s (%s)", usuario.getEmail(), usuario.getTipoUsuario()));
                 
-                // Redirigir a la página de libros
-                response.sendRedirect(request.getContextPath() + "/libros");
+                // Redirigir al menú principal
+                response.sendRedirect(request.getContextPath() + "/menu");
                 
             } else {
                 // Credenciales incorrectas

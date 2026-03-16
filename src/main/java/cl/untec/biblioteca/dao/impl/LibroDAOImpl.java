@@ -38,8 +38,8 @@ public class LibroDAOImpl implements LibroDAO {
     
     private static final String SQL_INSERT =
             "INSERT INTO libros (isbn, titulo, autor, editorial, anio_publicacion, " +
-            "categoria, descripcion, cantidad_total, cantidad_disponible, ubicacion, activo) " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "categoria, descripcion, cantidad_total, cantidad_disponible, ubicacion, especialidad, codigo_categoria, nivel_recomendado, activo) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     private static final String SQL_SELECT_BY_ID =
             "SELECT * FROM libros WHERE id = ? AND activo = TRUE";
@@ -59,13 +59,16 @@ public class LibroDAOImpl implements LibroDAO {
     private static final String SQL_SELECT_BY_CATEGORIA =
             "SELECT * FROM libros WHERE categoria = ? AND activo = TRUE ORDER BY titulo";
     
+    private static final String SQL_SELECT_BY_ESPECIALIDAD =
+            "SELECT * FROM libros WHERE especialidad = ? AND activo = TRUE ORDER BY titulo";
+    
     private static final String SQL_SELECT_DISPONIBLES =
             "SELECT * FROM libros WHERE cantidad_disponible > 0 AND activo = TRUE ORDER BY titulo";
     
     private static final String SQL_UPDATE =
             "UPDATE libros SET isbn = ?, titulo = ?, autor = ?, editorial = ?, " +
             "anio_publicacion = ?, categoria = ?, descripcion = ?, cantidad_total = ?, " +
-            "cantidad_disponible = ?, ubicacion = ? WHERE id = ?";
+            "cantidad_disponible = ?, ubicacion = ?, especialidad = ?, codigo_categoria = ?, nivel_recomendado = ? WHERE id = ?";
     
     private static final String SQL_DELETE =
             "UPDATE libros SET activo = FALSE WHERE id = ?";
@@ -83,7 +86,7 @@ public class LibroDAOImpl implements LibroDAO {
              PreparedStatement ps = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             
             setPreparedStatementFromLibro(ps, libro);
-            ps.setBoolean(11, true); // activo
+            ps.setBoolean(14, true); // activo
             
             int affectedRows = ps.executeUpdate();
             
@@ -217,7 +220,7 @@ public class LibroDAOImpl implements LibroDAO {
              PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
             
             setPreparedStatementFromLibro(ps, libro);
-            ps.setLong(11, libro.getId());
+            ps.setLong(14, libro.getId());
             
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
@@ -289,6 +292,18 @@ public class LibroDAOImpl implements LibroDAO {
         
         libro.setActivo(rs.getBoolean("activo"));
         
+        // Nuevos campos
+        String especialidad = rs.getString("especialidad");
+        if (especialidad != null && !especialidad.isEmpty()) {
+            libro.setEspecialidad(Libro.Especialidad.valueOf(especialidad));
+        }
+        libro.setCodigoCategoria(rs.getString("codigo_categoria"));
+        
+        String nivelRecomendado = rs.getString("nivel_recomendado");
+        if (nivelRecomendado != null && !nivelRecomendado.isEmpty()) {
+            libro.setNivelRecomendado(Libro.NivelRecomendado.valueOf(nivelRecomendado));
+        }
+        
         return libro;
     }
     
@@ -307,6 +322,9 @@ public class LibroDAOImpl implements LibroDAO {
         ps.setInt(8, libro.getCantidadTotal());
         ps.setInt(9, libro.getCantidadDisponible());
         ps.setString(10, libro.getUbicacion());
+        ps.setString(11, libro.getEspecialidad() != null ? libro.getEspecialidad().name() : null);
+        ps.setString(12, libro.getCodigoCategoria());
+        ps.setString(13, libro.getNivelRecomendado() != null ? libro.getNivelRecomendado().name() : null);
     }
     
     /**

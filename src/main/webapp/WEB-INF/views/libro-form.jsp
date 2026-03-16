@@ -101,6 +101,24 @@
             color: #333;
             background: #ebedf2;
         }
+        select {
+            border: 1px solid #d7dce5;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 14px;
+            width: 100%;
+            background: white;
+        }
+        .especialidad-badge {
+            display: inline-block;
+            background: #e8f1f5;
+            color: #0066cc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
         @media (max-width: 768px) {
             .grid { grid-template-columns: 1fr; }
         }
@@ -163,6 +181,37 @@
                     </div>
 
                     <div class="field">
+                        <label for="especialidad">Especialidad 📚</label>
+                        <select id="especialidad" name="especialidad" onchange="actualizarCodigoCategoriaAutomatico()" required>
+                            <option value="">-- Seleccionar especialidad --</option>
+                            <option value="INGENIERIA" <c:if test="${libro.especialidad == 'INGENIERIA'}">selected</c:if>>Ingeniería (ING)</option>
+                            <option value="EDUCACION" <c:if test="${libro.especialidad == 'EDUCACION'}">selected</c:if>>Educación (EDU)</option>
+                            <option value="MEDICINA" <c:if test="${libro.especialidad == 'MEDICINA'}">selected</c:if>>Medicina (MED)</option>
+                            <option value="VETERINARIA" <c:if test="${libro.especialidad == 'VETERINARIA'}">selected</c:if>>Veterinaria (VET)</option>
+                            <option value="CIENCIAS_COMERCIALES" <c:if test="${libro.especialidad == 'CIENCIAS_COMERCIALES'}">selected</c:if>>Ciencias Comerciales (COM)</option>
+                            <option value="TURISMO" <c:if test="${libro.especialidad == 'TURISMO'}">selected</c:if>>Turismo (TUR)</option>
+                            <option value="DERECHO" <c:if test="${libro.especialidad == 'DERECHO'}">selected</c:if>>Derecho (DER)</option>
+                            <option value="GENERAL" <c:if test="${libro.especialidad == 'GENERAL'}">selected</c:if>>General (GEN)</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="codigoCategoria">Código de categoría</label>
+                        <input type="text" id="codigoCategoria" name="codigoCategoria" value="<c:out value='${libro.codigoCategoria}' />" placeholder="Ej: ING-001" maxlength="10" />
+                        <small style="color: #666; margin-top: 4px;">Se auto-genera con especialidad. Ej: ING-001, MED-005</small>
+                    </div>
+
+                    <div class="field">
+                        <label for="nivelRecomendado">Nivel recomendado ⭐</label>
+                        <select id="nivelRecomendado" name="nivelRecomendado" required>
+                            <option value="">-- Seleccionar nivel --</option>
+                            <option value="BASICO" <c:if test="${libro.nivelRecomendado == 'BASICO'}">selected</c:if>>Básico (Introducción)</option>
+                            <option value="INTERMEDIO" <c:if test="${libro.nivelRecomendado == 'INTERMEDIO'}">selected</c:if>>Intermedio (Desarrollo)</option>
+                            <option value="AVANZADO" <c:if test="${libro.nivelRecomendado == 'AVANZADO'}">selected</c:if>>Avanzado (Especialización)</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
                         <label for="cantidadTotal">Cantidad total</label>
                         <input type="number" id="cantidadTotal" name="cantidadTotal" value="<c:out value='${libro.cantidadTotal}' />" min="0" required />
                     </div>
@@ -199,5 +248,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Mapa de especialidades a sus prefijos de código
+    const prefijosEspecialidad = {
+        'INGENIERIA': 'ING',
+        'EDUCACION': 'EDU',
+        'MEDICINA': 'MED',
+        'VETERINARIA': 'VET',
+        'CIENCIAS_COMERCIALES': 'COM',
+        'TURISMO': 'TUR',
+        'DERECHO': 'DER',
+        'GENERAL': 'GEN'
+    };
+
+    // Auto-generar código de categoría cuando cambia especialidad
+    function actualizarCodigoCategoriaAutomatico() {
+        const especialidad = document.getElementById('especialidad').value;
+        const codigoField = document.getElementById('codigoCategoria');
+        
+        if (especialidad && prefijosEspecialidad[especialidad]) {
+            const prefijo = prefijosEspecialidad[especialidad];
+            // Generar número secuencial simple (001, 002, etc.)
+            // En modo edición, esto se puede sobrescribir
+            const numeroActual = codigoField.value;
+            if (!numeroActual || !numeroActual.startsWith(prefijo)) {
+                // Si no hay código o es de otra especialidad, proponer uno nuevo
+                codigoField.value = prefijo + '-001';
+                codigoField.placeholder = prefijo + '-XXX';
+            }
+        }
+    }
+
+    // Inicializar campos al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const especialidadField = document.getElementById('especialidad');
+        if (especialidadField.value) {
+            actualizarCodigoCategoriaAutomatico();
+        }
+    });
+</script>
 </body>
 </html>

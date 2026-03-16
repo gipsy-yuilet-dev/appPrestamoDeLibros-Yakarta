@@ -29,8 +29,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     // ========== Constantes SQL ==========
     
     private static final String SQL_INSERT =
-            "INSERT INTO usuarios (rut, nombre, email, password, tipo_usuario, activo) " +
-            "VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO usuarios (rut, nombre, email, password, tipo_usuario, facultad, carrera, anio_actual, tiene_multa, monto_multa, activo) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     private static final String SQL_SELECT_BY_ID =
             "SELECT * FROM usuarios WHERE id = ? AND activo = TRUE";
@@ -52,7 +52,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     
     private static final String SQL_UPDATE =
             "UPDATE usuarios SET rut = ?, nombre = ?, email = ?, password = ?, " +
-            "tipo_usuario = ? WHERE id = ?";
+            "tipo_usuario = ?, facultad = ?, carrera = ?, anio_actual = ?, tiene_multa = ?, monto_multa = ? WHERE id = ?";
     
     private static final String SQL_DELETE =
             "UPDATE usuarios SET activo = FALSE WHERE id = ?";
@@ -81,7 +81,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
              PreparedStatement ps = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
             
             setPreparedStatementFromUsuario(ps, usuario);
-            ps.setBoolean(6, true); // activo
+            ps.setBoolean(11, true); // activo
             
             int affectedRows = ps.executeUpdate();
             
@@ -259,7 +259,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
              PreparedStatement ps = conn.prepareStatement(SQL_UPDATE)) {
             
             setPreparedStatementFromUsuario(ps, usuario);
-            ps.setLong(6, usuario.getId());
+            ps.setLong(11, usuario.getId());
             
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
@@ -317,6 +317,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         }
         
         usuario.setActivo(rs.getBoolean("activo"));
+        usuario.setFacultad(rs.getString("facultad"));
+        usuario.setCarrera(rs.getString("carrera"));
+        usuario.setAnioActual(rs.getObject("anio_actual") != null ? rs.getInt("anio_actual") : null);
+        usuario.setTieneMulta(rs.getBoolean("tiene_multa"));
+        usuario.setMontoMulta(rs.getObject("monto_multa") != null ? rs.getDouble("monto_multa") : null);
         
         return usuario;
     }
@@ -330,6 +335,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         ps.setString(3, usuario.getEmail().toLowerCase());
         ps.setString(4, usuario.getPassword()); // En producción: hash
         ps.setString(5, usuario.getTipoUsuario().name());
+        ps.setString(6, usuario.getFacultad());
+        ps.setString(7, usuario.getCarrera());
+        ps.setObject(8, usuario.getAnioActual());
+        ps.setBoolean(9, usuario.getTieneMulta() != null ? usuario.getTieneMulta() : false);
+        ps.setObject(10, usuario.getMontoMulta());
     }
     
     /**

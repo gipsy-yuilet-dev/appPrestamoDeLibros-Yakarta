@@ -29,10 +29,6 @@
         </cookie-config>
     </session-config>
 
-    <!-- Codificación por defecto para peticiones y respuestas -->
-    <request-character-encoding>UTF-8</request-character-encoding>
-    <response-character-encoding>UTF-8</response-character-encoding>
-
     <!-- Páginas de error personalizadas -->
     <error-page>
         <error-code>404</error-code>

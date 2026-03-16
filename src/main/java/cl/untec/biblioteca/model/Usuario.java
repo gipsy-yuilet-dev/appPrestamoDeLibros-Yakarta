@@ -103,6 +103,34 @@ public class Usuario implements Serializable {
      */
     private Boolean activo;
     
+    /**
+     * Facultad a la que pertenece el usuario (solo estudiantes y profesores).
+     * Ej: "Ingeniería", "Educación", "Medicina", "Ciencias Comerciales"
+     */
+    private String facultad;
+    
+    /**
+     * Carrera académica del usuario (solo estudiantes y profesores).
+     * Ej: "Ingeniería en Informática", "Derecho", "Administración de Empresas"
+     */
+    private String carrera;
+    
+    /**
+     * Año de estudio actual (solo estudiantes).
+     * Valores: 1, 2, 3, 4, 5, etc.
+     */
+    private Integer anioActual;
+    
+    /**
+     * Indica si el usuario tiene multa activa en la biblioteca.
+     */
+    private Boolean tieneMulta;
+    
+    /**
+     * Monto de la multa en dólares (si aplica).
+     */
+    private Double montoMulta;
+    
     // ========== Constructores ==========
     
     /**
@@ -311,6 +339,46 @@ public class Usuario implements Serializable {
     
     public void setActivo(Boolean activo) {
         this.activo = activo;
+    }
+    
+    public String getFacultad() {
+        return facultad;
+    }
+    
+    public void setFacultad(String facultad) {
+        this.facultad = facultad;
+    }
+    
+    public String getCarrera() {
+        return carrera;
+    }
+    
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+    
+    public Integer getAnioActual() {
+        return anioActual;
+    }
+    
+    public void setAnioActual(Integer anioActual) {
+        this.anioActual = anioActual;
+    }
+    
+    public Boolean getTieneMulta() {
+        return tieneMulta;
+    }
+    
+    public void setTieneMulta(Boolean tieneMulta) {
+        this.tieneMulta = tieneMulta;
+    }
+    
+    public Double getMontoMulta() {
+        return montoMulta;
+    }
+    
+    public void setMontoMulta(Double montoMulta) {
+        this.montoMulta = montoMulta;
     }
     
     // ========== Métodos Object ==========

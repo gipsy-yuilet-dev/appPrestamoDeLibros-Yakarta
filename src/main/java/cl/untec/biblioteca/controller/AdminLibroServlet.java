@@ -1,6 +1,7 @@
 package cl.untec.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import cl.untec.biblioteca.dao.DAOFactory;
 import cl.untec.biblioteca.dao.LibroDAO;
@@ -41,29 +42,32 @@ public class AdminLibroServlet extends HttpServlet {
             return;
         }
 
-        String accion = valorSeguro(request.getParameter("accion"), "nuevo");
+        String accion = valorSeguro(request.getParameter("accion"), "listar");
 
         if ("editar".equalsIgnoreCase(accion)) {
             Long id = parseId(request.getParameter("id"));
             if (id == null) {
-                response.sendRedirect(request.getContextPath() + "/libros?errorAdmin=id-invalido");
+                response.sendRedirect(request.getContextPath() + "/admin/libro");
                 return;
             }
 
             Libro libro = libroDAO.obtenerPorId(id);
             if (libro == null) {
-                response.sendRedirect(request.getContextPath() + "/libros?errorAdmin=libro-no-encontrado");
+                response.sendRedirect(request.getContextPath() + "/admin/libro?error=libro-no-encontrado");
                 return;
             }
 
             request.setAttribute("libro", libro);
             request.setAttribute("modoFormulario", "editar");
-        } else {
+            request.getRequestDispatcher("/WEB-INF/views/libro-form.jsp").forward(request, response);
+        } else if ("nuevo".equalsIgnoreCase(accion)) {
             request.setAttribute("libro", new Libro());
             request.setAttribute("modoFormulario", "nuevo");
+            request.getRequestDispatcher("/WEB-INF/views/libro-form.jsp").forward(request, response);
+        } else {
+            // Acción por defecto: LISTAR todos los libros
+            listarLibros(request, response);
         }
-
-        request.getRequestDispatcher("/WEB-INF/views/libro-form.jsp").forward(request, response);
     }
 
     @Override
@@ -90,6 +94,20 @@ public class AdminLibroServlet extends HttpServlet {
             request.setAttribute("libro", construirLibroDesdeRequest(request, true));
             request.setAttribute("modoFormulario", "actualizar".equalsIgnoreCase(accion) ? "editar" : "nuevo");
             request.getRequestDispatcher("/WEB-INF/views/libro-form.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * Listar todos los libros del catálogo
+     */
+    private void listarLibros(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            List<Libro> libros = libroDAO.obtenerTodos();
+            request.setAttribute("libros", libros);
+            request.getRequestDispatcher("/WEB-INF/views/libro-lista.jsp").forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException("Error al cargar lista de libros", e);
         }
     }
 
@@ -147,6 +165,27 @@ public class AdminLibroServlet extends HttpServlet {
         libro.setDescripcion(textoOpcional(request.getParameter("descripcion")));
         libro.setUbicacion(textoOpcional(request.getParameter("ubicacion")));
         libro.setAnioPublicacion(parseIntegerOpcional(request.getParameter("anioPublicacion"), "El año de publicación no es válido"));
+
+        // Nuevos campos de especialidad
+        String especialidadStr = request.getParameter("especialidad");
+        if (especialidadStr != null && !especialidadStr.trim().isEmpty()) {
+            try {
+                libro.setEspecialidad(Libro.Especialidad.valueOf(especialidadStr.trim()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Especialidad no válida: " + especialidadStr);
+            }
+        }
+
+        libro.setCodigoCategoria(textoOpcional(request.getParameter("codigoCategoria")));
+
+        String nivelStr = request.getParameter("nivelRecomendado");
+        if (nivelStr != null && !nivelStr.trim().isEmpty()) {
+            try {
+                libro.setNivelRecomendado(Libro.NivelRecomendado.valueOf(nivelStr.trim()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Nivel recomendado no válido: " + nivelStr);
+            }
+        }
 
         Integer cantidadTotal = parseIntegerObligatorio(request.getParameter("cantidadTotal"),
                 "La cantidad total es obligatoria");
