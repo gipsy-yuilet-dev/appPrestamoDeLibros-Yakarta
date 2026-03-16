@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee 
+         https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <!-- Información de la aplicación -->
+    <display-name>Biblioteca Digital UNTEC</display-name>
+    <description>
+        Sistema de gestión de biblioteca digital para Universidad UNTEC.
+        Permite gestionar libros, usuarios y préstamos de manera eficiente.
+    </description>
+
+    <!-- Página de bienvenida -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- Configuración de sesión -->
+    <session-config>
+        <!-- Tiempo de expiración de sesión en minutos (30 minutos) -->
+        <session-timeout>30</session-timeout>
+        <!-- Uso de cookies para tracking de sesión -->
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>false</secure> <!-- Cambiar a true en producción con HTTPS -->
+        </cookie-config>
+    </session-config>
+
+    <!-- Codificación por defecto para peticiones y respuestas -->
+    <request-character-encoding>UTF-8</request-character-encoding>
+    <response-character-encoding>UTF-8</response-character-encoding>
+
+    <!-- Páginas de error personalizadas -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
+
+    <!-- Parámetros de contexto para configuración de base de datos -->
+    <!-- NOTA: En producción, usar JNDI o variables de entorno -->
+    <context-param>
+        <description>Driver JDBC (H2 para desarrollo, MySQL para producción)</description>
+        <param-name>db.driver</param-name>
+        <param-value>org.h2.Driver</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>URL de conexión a base de datos</description>
+        <param-name>db.url</param-name>
+        <param-value>jdbc:h2:~/biblioteca-untec;AUTO_SERVER=TRUE</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Usuario de base de datos</description>
+        <param-name>db.username</param-name>
+        <param-value>sa</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Contraseña de base de datos</description>
+        <param-name>db.password</param-name>
+        <param-value></param-value>
+    </context-param>
+
+</web-app>
