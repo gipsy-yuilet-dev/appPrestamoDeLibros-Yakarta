@@ -113,6 +113,30 @@
             border-radius: 8px;
             margin: 15px 0;
         }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #667eea;
+            color: #666;
+            font-size: 0.95em;
+        }
+        footer a {
+            color: #667eea;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        footer .footer-links {
+            margin: 15px 0;
+        }
+        footer .footer-links a {
+            margin: 0 15px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -213,12 +237,27 @@
                 <li><strong>Proyecto:</strong> Desarrollo de Aplicaciones Web Dinámicas Java</li>
                 <li><strong>Patrón:</strong> MVC (Modelo-Vista-Controlador)</li>
                 <li><strong>Framework:</strong> Jakarta EE 9+</li>
+                <li><strong>Autor:</strong> Julieta (Yulieta) Eyzaguirre</li>
                 <li><strong>Servidor Web:</strong> Apache Tomcat 10+</li>
                 <li><strong>Base de Datos:</strong> H2 (desarrollo) / MySQL 8 (producción)</li>
                 <li><strong>Versión:</strong> 1.0.0</li>
                 <li><strong>Fecha:</strong> Marzo 2026</li>
             </ul>
         </div>
+
+        <!-- Pie de página -->
+        <footer>
+            <div class="footer-links">
+                <a href="https://github.com/gipsy-yuilet-dev/appPrestamoDeLibros-Yakarta" target="_blank" rel="noopener noreferrer">🔗 GitHub</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">💻 GitHub Perfil</a>
+                <a href="mailto:soporte@untec.cl">📧 Contacto</a>
+            </div>
+            <p>&copy; 2026 Biblioteca Digital UNTEC. Todos los derechos reservados.</p>
+            <p style="font-size: 0.9em; margin-top: 10px; color: #999;">
+                Desarrollado como proyecto final del Módulo V - Programación Web en Java<br>
+                <a href="https://github.com/gipsy-yuilet-dev/appPrestamoDeLibros-Yakarta" target="_blank" rel="noopener noreferrer">Ver repositorio en GitHub →</a>
+            </p>
+        </footer>
     </div>
 </body>
 </html>
